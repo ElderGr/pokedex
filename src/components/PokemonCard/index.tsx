@@ -40,13 +40,14 @@ function PokemonCard({
     }
 
     return(
-        <div>
+        <div className="basis-1/5 flex flex-col justify-center">
             <Image
                 alt={name}
                 src={pokemonDetail.sprites.front_default || ''} 
                 width={200}
                 height={200}
             />
+            <span>{name}</span>
         </div>
     )
 }
