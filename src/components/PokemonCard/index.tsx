@@ -1,28 +1,18 @@
-import api from "@/services/api"
 import { useEffect, useState } from "react"
 import Image from 'next/image'
 import Link from "next/link";
+import api from "@/api";
+import { IPokemonDetail } from "@/services/pokemon/pokemon.types";
+import PokemonService from "@/services/pokemon/pokemon.service";
 
 interface Props{
     name: string;
 }
 
-interface IPokemonDetail {
-    sprites: {
-        back_default: string | null;
-        back_female: string | null;
-        back_shiny: string | null;
-        back_shiny_female: string | null;
-        front_default: string | null;
-        front_female: string | null;
-        front_shiny: string | null;
-        front_shiny_female: string | null;
-    }
-}
-
 function PokemonCard({
     name
 }: Props){
+    const pokemonService = new PokemonService()
     const [pokemonDetail, setPokemonDetail] = useState<IPokemonDetail>({
         sprites: {
             front_default: null
@@ -36,7 +26,9 @@ function PokemonCard({
     }, [name])
 
     const handlePokemonDetail = async () => {
-        const response = await api.get(`/pokemon/${name}`)
+        const response = await pokemonService.details({
+            pokemonName: name
+        })
         setPokemonDetail(response.data)
     }
 
